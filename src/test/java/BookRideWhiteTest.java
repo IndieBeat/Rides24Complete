@@ -22,9 +22,9 @@ public class BookRideWhiteTest {
 			Ride ride=null;
 			int seats=5;
 			double desk=3.8;
-			if(!sut.bookRide(username, ride, seats, desk)){
-				assertTrue();
-			}
+			boolean booked=sut.bookRide(username, ride, seats, desk);
+			
+			assertTrue(!booked);
 
 			fail();
 		} catch (Exception e) {
