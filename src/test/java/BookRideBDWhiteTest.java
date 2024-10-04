@@ -15,7 +15,7 @@ import static org.junit.Assert.fail;
 import java.util.Calendar;
 import java.util.Date;
 
-public class BookRideWhiteTest {
+public class BookRideBDWhiteTest {
 
 	static DataAccess sut=new DataAccess();
 	static TestDataAccess testDA=new TestDataAccess();
