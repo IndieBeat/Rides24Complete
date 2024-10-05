@@ -14,6 +14,7 @@ import domain.Booking;
 import domain.Driver;
 import domain.Ride;
 import domain.Traveler;
+import domain.User;
 
 
 public class TestDataAccess {
@@ -184,5 +185,57 @@ public class TestDataAccess {
 			return false;
 		}
 		return true;
+	}
+	
+	public User addUserWithMoney(String username, String password, double money) {
+	    System.out.println(">> TestDataAccess: addUserWithMoney");
+	    User user = null;
+	    db.getTransaction().begin();
+	    try {
+	        // Verifica si el usuario ya existe en la base de datos
+	        user = db.find(User.class, username);
+	        if (user == null) {
+	            // Si no existe, crea un nuevo usuario
+	            user = new User(username, password, "regular");
+	            user.setMoney(money); // Establece la cantidad de dinero inicial
+	            db.persist(user); // Persiste el usuario en la base de datos
+	        } else {
+	            // Si el usuario ya existe, simplemente actualiza su saldo
+	            user.setMoney(money);
+	            db.merge(user); // Actualiza el usuario existente
+	        }
+	        db.getTransaction().commit();
+	        System.out.println("User created/updated: " + user);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        db.getTransaction().rollback(); // Revertir si ocurre un error
+	    }
+	    return user;
+	}
+
+	
+	public boolean removeUserWithMoney(String username) {
+	    System.out.println(">> TestDataAccess: removeUserWithMoney");
+	    User user = null;
+	    db.getTransaction().begin();
+	    try {
+	        // Busca el usuario en la base de datos
+	        user = db.find(User.class, username);
+	        if (user != null) {
+	            // Si el usuario existe, elim�nalo
+	            db.remove(user);
+	            db.getTransaction().commit();
+	            System.out.println("User removed: " + user);
+	            return true; // El usuario fue eliminado correctamente
+	        } else {
+	            db.getTransaction().rollback();
+	            System.out.println("User not found: " + username);
+	            return false; // El usuario no existe
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        db.getTransaction().rollback(); // Revertir si ocurre un error
+	        return false;
+	    }
 	}
 }
