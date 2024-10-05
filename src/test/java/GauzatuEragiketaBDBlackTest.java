@@ -104,7 +104,7 @@ public class GauzatuEragiketaBDBlackTest {
     }
     
     @Test
-    
+    //Todo funciona correctamente
     public void test5() {
         String username = "Urtzi";
         double amount = 50.0;

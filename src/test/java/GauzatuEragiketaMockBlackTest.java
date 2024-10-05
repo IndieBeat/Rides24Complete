@@ -78,7 +78,7 @@ public class GauzatuEragiketaMockBlackTest {
 	}
 
 	@Test
-	// BK-ak: 7
+	
 	// username == null / Tiene que saltar una excepcion de query is null
 	public void test2() {
 		String username = null;
@@ -97,7 +97,7 @@ public class GauzatuEragiketaMockBlackTest {
 	}
 
 	@Test
-	// BK-ak: 8
+
 	// amount == null (aunque en Java `double` no puede ser `null`, simulamos un
 	// caso no válido)
 	public void test3() {
@@ -118,7 +118,7 @@ public class GauzatuEragiketaMockBlackTest {
 	}
 
 	@Test
-	// BK-ak: 9
+
 	// deposit == null (aunque en Java `boolean` no puede ser `null`, simulamos un
 	// caso no válido)
 	public void test4() {
@@ -139,7 +139,7 @@ public class GauzatuEragiketaMockBlackTest {
 	}
 
 	@Test
-	// BK-ak: 10
+
 	// user ⊄ DB
 	public void test5() {
 		String username = "Julen";
