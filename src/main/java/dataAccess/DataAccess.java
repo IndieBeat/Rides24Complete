@@ -852,22 +852,7 @@ public class DataAccess {
 
 	public void deleteUser(User us) {
 		try {
-			if (us.getMota().equals("Driver")) {
-				List<Ride> rl = getRidesByDriver(us.getUsername());
-				if (rl != null) {
-					for (Ride ri : rl) {
-						cancelRide(ri);
-					}
-				}
-				Driver d = getDriver(us.getUsername());
-				List<Car> cl = d.getCars();
-				if (cl != null) {
-					for (int i = cl.size() - 1; i >= 0; i--) {
-						Car ci = cl.get(i);
-						deleteCar(ci);
-					}
-				}
-			} else {
+			if(!us.getMota().equals("Driver")) {
 				List<Booking> lb = getBookedRides(us.getUsername());
 				if (lb != null) {
 					for (Booking li : lb) {
@@ -882,7 +867,26 @@ public class DataAccess {
 					}
 				}
 			}
-			db.getTransaction().begin();
+			
+			List<Ride> rl = getRidesByDriver(us.getUsername());
+			
+			if (rl != null) {
+				for (Ride ri : rl) {
+					cancelRide(ri);
+				}
+			}
+			
+			Driver d = getDriver(us.getUsername());
+			List<Car> cl = d.getCars();
+			
+			if (cl != null) {
+				for (int i = cl.size() - 1; i >= 0; i--) {
+					Car ci = cl.get(i);
+					deleteCar(ci);
+				}
+			}
+			db.
+			getTransaction().begin();
 			us = db.merge(us);
 			db.remove(us);
 			db.getTransaction().commit();

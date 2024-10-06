@@ -21,6 +21,8 @@ import domain.Complaint;
 import domain.Movement;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.RideAlreadyExistException;
+import java.util.logging.Level; 
+import java.util.logging.Logger; 
 
 /**
  * It implements the business logic as a web service.
@@ -28,9 +30,10 @@ import exceptions.RideAlreadyExistException;
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation implements BLFacade {
 	DataAccess dbManager;
+	Logger log=Logger.getLogger(BLFacadeImplementation.class.getSimpleName()); 
 
 	public BLFacadeImplementation() {
-		System.out.println("Creating BLFacadeImplementation instance");
+		log.log(Level.INFO,"Creating BLFacadeImplementation instance");
 
 		dbManager = new DataAccess();
 
@@ -87,7 +90,7 @@ public class BLFacadeImplementation implements BLFacade {
 		Ride ride = dbManager.createRide(from, to, date, nPlaces, price, driverName);
 		dbManager.close();
 		return ride;
-	};
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -167,14 +170,6 @@ public class BLFacadeImplementation implements BLFacade {
 		dbManager.close();
 		return t;
 	}
-
-	/*@Override
-	public Admin getAdmin(String erab) {
-		dbManager.open();
-		Admin a = dbManager.getAdmin(erab);
-		dbManager.close();
-		return a;
-	}*/
 
 	@Override
 	public String getMotaByUsername(String erab) {
