@@ -78,7 +78,7 @@ public class CreateRideMockWhiteTest {
 				try {
 					rideDate = sdf.parse("05/10/2026");
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}	
 				
@@ -93,17 +93,17 @@ public class CreateRideMockWhiteTest {
 				assertNull(ride);
 				
 			   } catch (RideAlreadyExistException e) {
-				// TODO Auto-generated catch block
+
 				// if the program goes to this point fail  
 				fail();
 
 				} catch (RideMustBeLaterThanTodayException e) {
-				// TODO Auto-generated catch block
+
 					fail();
 
 				} catch (Exception e) {
 					e.toString();
-				// TODO Auto-generated catch block
+
 					fail();
 
 				} finally {
@@ -129,7 +129,7 @@ public class CreateRideMockWhiteTest {
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}	
 		try {
@@ -151,7 +151,7 @@ public class CreateRideMockWhiteTest {
 				sut.close();
 				assertTrue(true);
 			} catch (RideMustBeLaterThanTodayException e) {
-			// TODO Auto-generated catch block
+
 			fail();
 		} 
 	} 
@@ -176,7 +176,7 @@ public class CreateRideMockWhiteTest {
 				try {
 					rideDate = sdf.parse("05/10/2018");
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}	
 				driver=new Driver(driverUserName,"123");
@@ -191,7 +191,7 @@ public class CreateRideMockWhiteTest {
 				assertNull(ride);
 				
 			   } catch (RideAlreadyExistException e) {
-				// TODO Auto-generated catch block
+
 				// if the program goes to this point fail  
 				fail();
 
@@ -201,7 +201,7 @@ public class CreateRideMockWhiteTest {
 
 				} catch (Exception e) {
 					e.toString();
-				// TODO Auto-generated catch block
+
 					fail();
 
 				} finally {
@@ -226,7 +226,7 @@ public class CreateRideMockWhiteTest {
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}	
 		try {
@@ -249,7 +249,7 @@ public class CreateRideMockWhiteTest {
 				sut.close();
 				assertTrue(true);
 			} catch (RideMustBeLaterThanTodayException e) {
-			// TODO Auto-generated catch block
+
 			fail();
 		} 
 	} 
@@ -272,7 +272,7 @@ public class CreateRideMockWhiteTest {
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}	
 		
