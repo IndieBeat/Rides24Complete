@@ -467,7 +467,6 @@ public class CreateRideMockBlackTest {
 			
 			
 		   } catch (RideAlreadyExistException e) {
-			// TODO Auto-generated catch block
 			// if the program goes to this point fail  
 			fail();
 			} catch (RideMustBeLaterThanTodayException e) {
