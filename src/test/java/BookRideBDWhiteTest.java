@@ -244,36 +244,5 @@ public class BookRideBDWhiteTest {
 			testDA.close();
 		}
 	}
-	/*
-	@Test
-	public void test7DriverNoTraveler() {
-		try {
-			sut.open();
-			testDA.open();
-			
-			Calendar cal = Calendar.getInstance();
-			cal.set(2024, Calendar.MAY, 30);
-			Date date2 = UtilDate.trim(cal.getTime());
-			Driver driver=testDA.addDriverWithRide("Test","Murcia", "Barcelona", date2, 5, 2);
-			
-			Ride ride=driver.getCreatedRides().get(0);
-			
-			int seats=2;
-			double desk=200;
-			boolean booked=sut.bookRide(driver.getUsername(), ride, seats, desk);
-			
-			testDA.removeBookings(driver.getUsername());
-			testDA.removeRide(driver.getUsername(), ride.getFrom(), ride.getTo(), ride.getDate());
-			testDA.removeDriver(driver.getUsername());
-			
-			testDA.close();
-			sut.close();
-			assertTrue(!booked);
-		} catch (Exception e) {
-			fail();
-		}finally {
-			testDA.close();
-			sut.close();
-		}
-	}*/
+
 }
