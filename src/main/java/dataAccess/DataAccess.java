@@ -167,8 +167,7 @@ public class DataAccess {
 			db.persist(c2);
 			db.persist(c3);
 
-			//Admin a1 = new Admin("Jon", "111");
-			//db.persist(a1);
+		
 
 			Discount dis = new Discount("Uda24", 0.2, true);
 			db.persist(dis);
@@ -367,11 +366,7 @@ public class DataAccess {
 		driverQuery.setParameter("passwd", passwd);
 		Long driverCount = driverQuery.getSingleResult();
 
-		/*TypedQuery<Long> adminQuery = db.createQuery(
-				"SELECT COUNT(a) FROM Admin a WHERE a.username = :username AND a.passwd = :passwd", Long.class);
-		adminQuery.setParameter("username", erab);
-		adminQuery.setParameter("passwd", passwd);
-		Long adminCount = adminQuery.getSingleResult();*/
+	
 
 		boolean isAdmin=((erab.compareTo("admin")==0) && (passwd.compareTo(adminPass)==0));
 		return travelerCount > 0 || driverCount > 0 || isAdmin;
@@ -411,10 +406,7 @@ public class DataAccess {
 		travelerQuery.setParameter("username", erab);
 		List<String> travelerResultList = travelerQuery.getResultList();
 
-		/*TypedQuery<String> adminQuery = db.createQuery("SELECT a.mota FROM Admin a WHERE a.username = :username",
-				String.class);
-		adminQuery.setParameter("username", erab);
-		List<String> adminResultList = adminQuery.getResultList();*/
+		
 
 		if (!driverResultList.isEmpty()) {
 			return driverResultList.get(0);

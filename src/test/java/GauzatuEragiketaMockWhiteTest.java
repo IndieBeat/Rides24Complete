@@ -91,7 +91,7 @@ public class GauzatuEragiketaMockWhiteTest {
         try {
         	Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQuery);		
     		Mockito.when(typedQuery.getSingleResult()).thenReturn(null);
-           // Mockito.when(db.find(User.class, username)).thenReturn(null);
+           
 
      
             sut.open();
