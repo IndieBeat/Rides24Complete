@@ -2,6 +2,7 @@ package configuration;
 
 import java.io.File;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -75,6 +76,7 @@ public class ConfigXML {
 		
 		  try {
 			  DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			  dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 			  DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			  Document doc = dBuilder.parse(new File(configFile));
 			  doc.getDocumentElement().normalize();
