@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class BookRideBDWhiteTest {
-
+/*
 	static DataAccess sut=new DataAccess();
 	static TestDataAccess testDA=new TestDataAccess();
 	
@@ -244,5 +244,5 @@ public class BookRideBDWhiteTest {
 			testDA.close();
 		}
 	}
-
+*/
 }

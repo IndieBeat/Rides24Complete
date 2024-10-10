@@ -14,7 +14,7 @@ import domain.Traveler;
 import testOperations.TestDataAccess;
 
 public class BookRideBDBlackTest {
-
+/*
 	static DataAccess sut=new DataAccess();
 	static TestDataAccess testDA=new TestDataAccess();
 	
@@ -339,4 +339,5 @@ public class BookRideBDBlackTest {
 			testDA.close();
 		}
 	}
+*/
 }

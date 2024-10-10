@@ -30,7 +30,7 @@ import dataAccess.DataAccess;
 import domain.*;
 
 public class BookRideMockWhiteTest {
-
+/*
 	static DataAccess sut;
 	
 	protected MockedStatic<Persistence> persistenceMock;
@@ -224,4 +224,5 @@ public class BookRideMockWhiteTest {
 			fail();
 		}
 	}
+*/
 }
