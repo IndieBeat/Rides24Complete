@@ -30,157 +30,154 @@ import dataAccess.DataAccess;
 import domain.*;
 
 public class BookRideMockWhiteTest {
-/*
+
 	static DataAccess sut;
-	
+
 	protected MockedStatic<Persistence> persistenceMock;
 
 	@Mock
-	protected  EntityManagerFactory entityManagerFactory;
+	protected EntityManagerFactory entityManagerFactory;
 	@Mock
-	protected  EntityManager db;
+	protected EntityManager db;
 	@Mock
-    protected  EntityTransaction  et;
+	protected EntityTransaction et;
 
 	@Mock
 	TypedQuery<Traveler> travelerTypedQuery;
-	
+
 	@Before
-    public  void init() {
-        MockitoAnnotations.openMocks(this);
-        persistenceMock = Mockito.mockStatic(Persistence.class);
+	public void init() {
+		MockitoAnnotations.openMocks(this);
+		persistenceMock = Mockito.mockStatic(Persistence.class);
 		persistenceMock.when(() -> Persistence.createEntityManagerFactory(Mockito.any()))
-        .thenReturn(entityManagerFactory);
-        
-        Mockito.doReturn(db).when(entityManagerFactory).createEntityManager();
+				.thenReturn(entityManagerFactory);
+
+		Mockito.doReturn(db).when(entityManagerFactory).createEntityManager();
 		Mockito.doReturn(et).when(db).getTransaction();
-	    sut=new DataAccess(db);
-    }
+		sut = new DataAccess(db);
+	}
+
 	@After
-    public  void tearDown() {
+	public void tearDown() {
 		persistenceMock.close();
-    }
-	
+	}
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void Test1UserNull() {
-		String driverName="Test1Driver";
-		String rideFrom="Murcia";
-		String rideTo="Barcelona";
-		
+		String driverName = "Test1Driver";
+		String rideFrom = "Murcia";
+		String rideTo = "Barcelona";
+
 		Calendar cal = Calendar.getInstance();
 		cal.set(2024, Calendar.MAY, 30);
 		Date date = UtilDate.trim(cal.getTime());
-		int seats=2;
-		double desk=0;
+		int seats = 2;
+		double desk = 0;
 
 		try {
-			Driver driver=new Driver(driverName, "123");
-			Ride ride=new Ride(rideFrom, rideTo, date, 5, 1, driver);
-			
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class)))
-				.thenReturn(travelerTypedQuery);		
+			Driver driver = new Driver(driverName, "123");
+			Ride ride = new Ride(rideFrom, rideTo, date, 5, 1, driver);
+
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(travelerTypedQuery);
 			Mockito.when(travelerTypedQuery.getSingleResult()).thenReturn(null);
-	        
+
 			sut.open();
-			boolean booked=sut.bookRide(null, ride, seats, desk);
+			boolean booked = sut.bookRide(null, ride, seats, desk);
 			sut.close();
-			
+
 			assertTrue(!booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void Test2NoEnoughSeats() {
-		String username="Test";
-		String driverName="Test1Driver";
-		String rideFrom="Murcia";
-		String rideTo="Barcelona";
-		int seats=200;
-		double desk=0;
-		
+		String username = "Test";
+		String driverName = "Test1Driver";
+		String rideFrom = "Murcia";
+		String rideTo = "Barcelona";
+		int seats = 200;
+		double desk = 0;
+
 		Calendar cal = Calendar.getInstance();
 		cal.set(2024, Calendar.MAY, 30);
 		Date date = UtilDate.trim(cal.getTime());
 
 		try {
-			Driver driver=new Driver(driverName, "123");
-			Ride ride=new Ride(rideFrom, rideTo, date, 5, 1, driver);
-			Traveler t=new Traveler(username, "123");
-			
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class)))
-				.thenReturn(travelerTypedQuery);		
+			Driver driver = new Driver(driverName, "123");
+			Ride ride = new Ride(rideFrom, rideTo, date, 5, 1, driver);
+			Traveler t = new Traveler(username, "123");
+
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(travelerTypedQuery);
 			Mockito.when(travelerTypedQuery.getSingleResult()).thenReturn(t);
-	        
+
 			sut.open();
-			boolean booked=sut.bookRide(username, ride, seats, desk);
+			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
-			
+
 			assertTrue(!booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void Test3NoRide() {
-		String username="Test";
-		int seats=2;
-		double desk=0;
+		String username = "Test";
+		int seats = 2;
+		double desk = 0;
 
 		try {
-			Ride ride=null;
-			Traveler t=new Traveler(username, "123");
-			
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class)))
-				.thenReturn(travelerTypedQuery);		
+			Ride ride = null;
+			Traveler t = new Traveler(username, "123");
+
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(travelerTypedQuery);
 			Mockito.when(travelerTypedQuery.getSingleResult()).thenReturn(t);
-	        
+
 			sut.open();
-			boolean booked=sut.bookRide(username, ride, seats, desk);
+			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
-			
+
 			assertTrue(!booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void Test4NoEnoughMoney() {
-		String username="Test";
-		String driverName="Test1Driver";
-		String rideFrom="Murcia";
-		String rideTo="Barcelona";
-		int seats=200;
-		double desk=0;
-		
+		String username = "Test";
+		String driverName = "Test1Driver";
+		String rideFrom = "Murcia";
+		String rideTo = "Barcelona";
+		int seats = 200;
+		double desk = 0;
+
 		Calendar cal = Calendar.getInstance();
 		cal.set(2024, Calendar.MAY, 30);
 		Date date = UtilDate.trim(cal.getTime());
 
 		try {
-			Driver driver=new Driver(driverName, "123");
-			Ride ride=new Ride(rideFrom, rideTo, date, 5, 2, driver);
-			Traveler t=new Traveler(username, "123");
+			Driver driver = new Driver(driverName, "123");
+			Ride ride = new Ride(rideFrom, rideTo, date, 5, 2, driver);
+			Traveler t = new Traveler(username, "123");
 			t.setMoney(10);
-			
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class)))
-				.thenReturn(travelerTypedQuery);		
+
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(travelerTypedQuery);
 			Mockito.when(travelerTypedQuery.getSingleResult()).thenReturn(t);
-	        
+
 			sut.open();
-			boolean booked=sut.bookRide(username, ride, seats, desk);
+			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
-			
+
 			assertTrue(!booked);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,38 +188,37 @@ public class BookRideMockWhiteTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void Test5OK() {
-		String username="Test";
-		String driverName="Test1Driver";
-		String rideFrom="Murcia";
-		String rideTo="Barcelona";
-		int seats=2;
-		double desk=0;
-		
+		String username = "Test";
+		String driverName = "Test1Driver";
+		String rideFrom = "Murcia";
+		String rideTo = "Barcelona";
+		int seats = 2;
+		double desk = 0;
+
 		Calendar cal = Calendar.getInstance();
 		cal.set(2024, Calendar.MAY, 30);
 		Date date = UtilDate.trim(cal.getTime());
 
 		try {
-			Driver driver=new Driver(driverName, "123");
-			Ride ride=new Ride(rideFrom, rideTo, date, 5, 2, driver);
-			Traveler t=new Traveler(username, "123");
+			Driver driver = new Driver(driverName, "123");
+			Ride ride = new Ride(rideFrom, rideTo, date, 5, 2, driver);
+			Traveler t = new Traveler(username, "123");
 			t.setMoney(100);
-			List<Traveler> l=new Vector<Traveler>();  
+			List<Traveler> l = new Vector<Traveler>();
 			l.add(t);
-			
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class)))
-				.thenReturn(travelerTypedQuery);		
+
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(travelerTypedQuery);
 			Mockito.when(travelerTypedQuery.getResultList()).thenReturn(l);
-	        
+
 			sut.open();
-			boolean booked=sut.bookRide(username, ride, seats, desk);
+			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
-			
+
 			assertTrue(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
 		}
 	}
-*/
+
 }
