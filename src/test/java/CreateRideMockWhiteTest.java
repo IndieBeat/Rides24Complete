@@ -6,7 +6,9 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -71,10 +73,13 @@ public class CreateRideMockWhiteTest {
 				String rideTo="Zarautz";
 				
 				String driverUserName=null;
-
+				List<String> info=new ArrayList<String>();
+				info.add(rideFrom);
+				info.add(rideTo);
+				info.add(driverUserName);
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				Date rideDate=null;;
+				Date rideDate=null;
 				try {
 					rideDate = sdf.parse("05/10/2026");
 				} catch (ParseException e) {
@@ -87,7 +92,7 @@ public class CreateRideMockWhiteTest {
 				
 				//invoke System Under Test (sut)  
 				sut.open();
-				Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUserName);
+				Ride ride=sut.createRide(info, rideDate, 0, 0);
 
 				//verify the results
 				assertNull(ride);
@@ -123,9 +128,13 @@ public class CreateRideMockWhiteTest {
 
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -141,7 +150,7 @@ public class CreateRideMockWhiteTest {
 			
 	      //invoke System Under Test (sut)  
 			sut.open();
-		    Ride r=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+		    Ride r=sut.createRide(info, rideDate, 0, 0);
 			sut.close();
 			
 			assertNull(r);
@@ -169,10 +178,13 @@ public class CreateRideMockWhiteTest {
 				String rideTo="Zarautz";
 				
 				String driverUserName=null;
-
+				List<String> info=new ArrayList<String>();
+				info.add(rideFrom);
+				info.add(rideTo);
+				info.add(driverUserName);
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				Date rideDate=null;;
+				Date rideDate=null;
 				try {
 					rideDate = sdf.parse("05/10/2018");
 				} catch (ParseException e) {
@@ -185,7 +197,7 @@ public class CreateRideMockWhiteTest {
 				
 				//invoke System Under Test (sut)  
 				sut.open();
-				Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUserName);
+				Ride ride=sut.createRide(info, rideDate, 0, 0);
 
 				//verify the results
 				assertNull(ride);
@@ -220,9 +232,13 @@ public class CreateRideMockWhiteTest {
 
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -239,7 +255,7 @@ public class CreateRideMockWhiteTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-		    sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+		    sut.createRide(info, rideDate, 0, 0);
 			sut.close();
 			
 			fail();
@@ -263,12 +279,15 @@ public class CreateRideMockWhiteTest {
 		String driverUsername="Driver Test";
 		String driverPassword="123";
 		
-		
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -284,7 +303,7 @@ public class CreateRideMockWhiteTest {
 					
 			//invoke System Under Test (sut)  
 			sut.open();
-			Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+			Ride ride=sut.createRide(info, rideDate, 0, 0);
 			sut.close();
 			//verify the results
 			assertNotNull(ride);

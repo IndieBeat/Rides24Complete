@@ -49,9 +49,7 @@ public interface BLFacade extends Serializable {
 
 	/**
 	 * This method creates a ride for a driver
-	 * 
-	 * @param from    the origin location of a ride
-	 * @param to      the destination location of a ride
+	 * @param info TODO
 	 * @param date    the date of the ride
 	 * @param nPlaces available seats
 	 * @param kotxe
@@ -63,7 +61,7 @@ public interface BLFacade extends Serializable {
 	 *                                           the driver
 	 */
 	@WebMethod
-	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
+	public Ride createRide(List<String> info, Date date, int nPlaces, float price)
 			throws RideMustBeLaterThanTodayException, RideAlreadyExistException;
 
 	/**

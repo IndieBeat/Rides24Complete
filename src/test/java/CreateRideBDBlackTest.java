@@ -7,7 +7,9 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -29,18 +31,22 @@ public class CreateRideBDBlackTest {
 	@SuppressWarnings("unused")
 	private Driver driver; 
 
+
 	@Test
 	//sut.createRide:  The Driver("Driver Test") HAS  NOT one ride "from" "to" in that "date". 
 	// and the Ride must be created in DB
 	//The test supposes that the "Driver Test" does not exist in the DB
-
 	public void test1() {
 		String driverUsername="Driver Test";
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -57,7 +63,7 @@ public class CreateRideBDBlackTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			 ride=sut.createRide(info, rideDate, 2, 10);
 			sut.close();			
 			
 			//verify the results
@@ -95,16 +101,19 @@ public class CreateRideBDBlackTest {
 	
 	
 	
-	
 	@Test
 	//sut.createRide:  The ride "from" is null. The test must return null. If  an Exception is returned the createRide method is not well implemented.
 	public void test2() {
 		String driverUsername="Test driver";
 		String rideFrom=null;
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -121,7 +130,7 @@ public class CreateRideBDBlackTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			 ride=sut.createRide(info, rideDate, 2, 10);
 			sut.close();			
 			
 			//verify the results
@@ -163,9 +172,13 @@ public class CreateRideBDBlackTest {
 		String driverUsername="Test driver";
 		String rideFrom="Donostia";
 		String rideTo=null;
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -182,7 +195,7 @@ public class CreateRideBDBlackTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			 ride=sut.createRide(info, rideDate, 2, 10);
 			sut.close();			
 			
 			//verify the results
@@ -224,6 +237,10 @@ public class CreateRideBDBlackTest {
 		String driverUsername="Test driver";
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		Date rideDate=null;
 		
@@ -235,7 +252,7 @@ public class CreateRideBDBlackTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			 ride=sut.createRide(info, rideDate, 2, 10);
 			sut.close();			
 			
 			//verify the results
@@ -276,9 +293,13 @@ public class CreateRideBDBlackTest {
 		String driverUsername="Test driver";
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -295,7 +316,7 @@ public class CreateRideBDBlackTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, -2, 0, driverUsername);
+			 ride=sut.createRide(info, rideDate, -2, 0);
 			sut.close();			
 			
 			//verify the results
@@ -338,9 +359,13 @@ public class CreateRideBDBlackTest {
 		String driverUsername="Test driver";
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -357,7 +382,7 @@ public class CreateRideBDBlackTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, -10, driverUsername);
+			 ride=sut.createRide(info, rideDate, 2, -10);
 			sut.close();			
 			
 			//verify the results
@@ -400,16 +425,20 @@ public class CreateRideBDBlackTest {
 			try {
 				
 				//define parameters
+				String driverUsername=null;
 				driver=null;
 
 				String rideFrom="Donostia";
 				String rideTo="Zarautz";
+				List<String> info=new ArrayList<String>();
+				info.add(rideFrom);
+				info.add(rideTo);
+				info.add(driverUsername);
 				
-				String driverUsername=null;
 
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				Date rideDate=null;;
+				Date rideDate=null;
 				try {
 					rideDate = sdf.parse("05/10/2026");
 				} catch (ParseException e) {
@@ -421,7 +450,7 @@ public class CreateRideBDBlackTest {
 				
 				//invoke System Under Test (sut)  
 				sut.open();
-			    ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			    ride=sut.createRide(info, rideDate, 2, 10);
 
 				//verify the results
 				assertNull(ride);
@@ -452,9 +481,13 @@ public class CreateRideBDBlackTest {
 
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		
 		boolean driverCreated=false;
 
@@ -476,7 +509,7 @@ public class CreateRideBDBlackTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-		    sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+		    sut.createRide(info, rideDate, 2, 10);
 			sut.close();
 			
 			fail();
@@ -504,9 +537,13 @@ public class CreateRideBDBlackTest {
 	public void test9() {
 		String driverUsername="Test driver";
 		String rideFrom="Donostia";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideFrom);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
@@ -523,7 +560,7 @@ public class CreateRideBDBlackTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideFrom, rideDate, 2, 10, driverUsername);
+			 ride=sut.createRide(info, rideDate, 2, 10);
 			sut.close();			
 			
 			//verify the results
@@ -568,9 +605,13 @@ public class CreateRideBDBlackTest {
 
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
+		List<String> info=new ArrayList<String>();
+		info.add(rideFrom);
+		info.add(rideTo);
+		info.add(driverUsername);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;;
+		Date rideDate=null;
 		
 
 		try {
@@ -590,7 +631,7 @@ public class CreateRideBDBlackTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-			Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			Ride ride=sut.createRide(info, rideDate, 2, 10);
 			
 
 			sut.close();

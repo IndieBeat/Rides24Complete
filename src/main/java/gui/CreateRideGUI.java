@@ -221,9 +221,13 @@ public class CreateRideGUI extends JFrame {
 				int inputSeats = (int) comboBoxSeats.getSelectedItem();
 				float price = Float.parseFloat(jTextFieldPrice.getText());
 
+				List<String> info=new ArrayList<String>();
+				info.add(fieldOrigin.getText());
+				info.add(fieldDestination.getText());
+				info.add(driver.getUsername());
 				@SuppressWarnings("unused")
-				Ride r = facade.createRide(fieldOrigin.getText(), fieldDestination.getText(),
-						UtilDate.trim(jCalendar.getDate()), inputSeats, price, driver.getUsername());
+				Ride r = facade.createRide(info, UtilDate.trim(jCalendar.getDate()),
+						inputSeats, price);
 				jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.RideCreated"));
 
 			} catch (RideMustBeLaterThanTodayException | RideAlreadyExistException e1) {
