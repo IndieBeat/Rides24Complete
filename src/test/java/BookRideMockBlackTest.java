@@ -2,6 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
@@ -87,7 +88,7 @@ public class BookRideMockBlackTest {
 			boolean booked = sut.bookRide(travelerName, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -120,7 +121,7 @@ public class BookRideMockBlackTest {
 
 			// Printea excepcion pero no la levanta, si no que devuelve false, luego
 			// correcto
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -153,7 +154,7 @@ public class BookRideMockBlackTest {
 			boolean booked = sut.bookRide(travelerName, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -191,7 +192,7 @@ public class BookRideMockBlackTest {
 			boolean booked = sut.bookRide(t.getUsername(), ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -229,7 +230,7 @@ public class BookRideMockBlackTest {
 			boolean booked = sut.bookRide(travelerName, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -267,7 +268,7 @@ public class BookRideMockBlackTest {
 			boolean booked = sut.bookRide(t.getUsername(), ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -305,7 +306,7 @@ public class BookRideMockBlackTest {
 			boolean booked = sut.bookRide(travelerName, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

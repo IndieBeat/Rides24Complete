@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.util.Calendar;
@@ -43,7 +44,7 @@ public class BookRideBDWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			fail();
 		} finally {
@@ -80,7 +81,7 @@ public class BookRideBDWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			fail();
 		} finally {
@@ -110,7 +111,7 @@ public class BookRideBDWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (NullPointerException e) {
 			fail();
 		} catch (Exception e) {
@@ -147,7 +148,7 @@ public class BookRideBDWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			fail();
 		} finally {
@@ -228,7 +229,7 @@ public class BookRideBDWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 
 			sut.close();
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

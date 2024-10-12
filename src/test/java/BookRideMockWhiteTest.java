@@ -2,6 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
@@ -86,7 +87,7 @@ public class BookRideMockWhiteTest {
 			boolean booked = sut.bookRide(null, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -119,7 +120,7 @@ public class BookRideMockWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -144,7 +145,7 @@ public class BookRideMockWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -178,7 +179,7 @@ public class BookRideMockWhiteTest {
 			boolean booked = sut.bookRide(username, ride, seats, desk);
 			sut.close();
 
-			assertTrue(!booked);
+			assertFalse(booked);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

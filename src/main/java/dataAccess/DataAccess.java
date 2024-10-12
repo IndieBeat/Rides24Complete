@@ -28,8 +28,8 @@ public class DataAccess {
 	private EntityManagerFactory emf;
 
 	ConfigXML c = ConfigXML.getInstance();
-	
-	private String adminPass="admin";
+
+	private String adminPass = "admin";
 
 	public DataAccess() {
 		if (c.isDatabaseInitialized()) {
@@ -56,7 +56,8 @@ public class DataAccess {
 		close();
 
 	}
-	//This constructor is used to mock the DB
+
+	// This constructor is used to mock the DB
 	public DataAccess(EntityManager db) {
 		this.db = db;
 	}
@@ -104,11 +105,11 @@ public class DataAccess {
 			cal.set(2024, Calendar.APRIL, 20);
 			Date date4 = UtilDate.trim(cal.getTime());
 
-			driver1.addRide("Donostia", "Madrid", date2, 5, 20); //ride1
-			driver1.addRide("Irun", "Donostia", date2, 5, 2); //ride2
-			driver1.addRide("Madrid", "Donostia", date3, 5, 5); //ride3
-			driver1.addRide("Barcelona", "Madrid", date4, 0, 10); //ride4
-			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); //ride5
+			driver1.addRide("Donostia", "Madrid", date2, 5, 20); // ride1
+			driver1.addRide("Irun", "Donostia", date2, 5, 2); // ride2
+			driver1.addRide("Madrid", "Donostia", date3, 5, 5); // ride3
+			driver1.addRide("Barcelona", "Madrid", date4, 0, 10); // ride4
+			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); // ride5
 
 			Ride ride1 = driver1.getCreatedRides().get(0);
 			Ride ride2 = driver1.getCreatedRides().get(1);
@@ -141,7 +142,7 @@ public class DataAccess {
 			Movement m5 = new Movement(traveler1, "BookFreeze", 3);
 			Movement m6 = new Movement(driver1, "Deposit", 15);
 			Movement m7 = new Movement(traveler1, "Deposit", 168);
-			
+
 			db.persist(m6);
 			db.persist(m7);
 			db.persist(m1);
@@ -149,7 +150,7 @@ public class DataAccess {
 			db.persist(m3);
 			db.persist(m4);
 			db.persist(m5);
-			
+
 			traveler1.addBookedRide(book1);
 			traveler1.addBookedRide(book2);
 			traveler2.addBookedRide(book3);
@@ -166,8 +167,6 @@ public class DataAccess {
 			db.persist(c1);
 			db.persist(c2);
 			db.persist(c3);
-
-		
 
 			Discount dis = new Discount("Uda24", 0.2, true);
 			db.persist(dis);
@@ -227,7 +226,8 @@ public class DataAccess {
 			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
 		System.out.println(
 				">> DataAccess: createRide=> from= " + from + " to= " + to + " driver=" + driverName + " date " + date);
-		if (driverName==null) return null;
+		if (driverName == null)
+			return null;
 		try {
 			if (new Date().compareTo(date) > 0) {
 				System.out.println("ppppp");
@@ -252,7 +252,6 @@ public class DataAccess {
 
 			return null;
 		}
-		
 
 	}
 
@@ -366,9 +365,7 @@ public class DataAccess {
 		driverQuery.setParameter("passwd", passwd);
 		Long driverCount = driverQuery.getSingleResult();
 
-	
-
-		boolean isAdmin=((erab.compareTo("admin")==0) && (passwd.compareTo(adminPass)==0));
+		boolean isAdmin = ((erab.compareTo("admin") == 0) && (passwd.compareTo(adminPass) == 0));
 		return travelerCount > 0 || driverCount > 0 || isAdmin;
 	}
 
@@ -406,15 +403,13 @@ public class DataAccess {
 		travelerQuery.setParameter("username", erab);
 		List<String> travelerResultList = travelerQuery.getResultList();
 
-		
-
 		if (!driverResultList.isEmpty()) {
 			return driverResultList.get(0);
 		} else if (!travelerResultList.isEmpty()) {
 			return travelerResultList.get(0);
-		} else  {
+		} else {
 			return "Admin";
-		} 
+		}
 	}
 
 	public boolean addDriver(String username, String password) {
@@ -500,41 +495,54 @@ public class DataAccess {
 
 	public boolean bookRide(String username, Ride ride, int seats, double desk) {
 		try {
-			db.getTransaction().begin();
-
 			Traveler traveler = getTraveler(username);
-			if (traveler == null) {
+			if (traveler == null)
 				return false;
-			}
 
-			if (ride.getnPlaces() < seats) {
+			if (ride.getnPlaces() < seats)
 				return false;
-			}
 
-			double ridePriceDesk = (ride.getPrice() - desk) * seats;
-			double availableBalance = traveler.getMoney();
-			if (availableBalance < ridePriceDesk) {
-				return false;
-			}
-
-			Booking booking = new Booking(ride, traveler, seats);
-			booking.setTraveler(traveler);
-			booking.setDeskontua(desk);
-			db.persist(booking);
-
-			ride.setnPlaces(ride.getnPlaces() - seats);
-			traveler.addBookedRide(booking);
-			traveler.setMoney(availableBalance - ridePriceDesk);
-			traveler.setIzoztatutakoDirua(traveler.getIzoztatutakoDirua() + ridePriceDesk);
-			db.merge(ride);
-			db.merge(traveler);
-			db.getTransaction().commit();
-			return true;
+			return createBooking(ride, seats, desk, traveler);
 		} catch (Exception e) {
 			e.printStackTrace();
-			db.getTransaction().rollback();
 			return false;
 		}
+	}
+
+	public boolean createBooking(Ride ride, int seats, double desk, Traveler traveler) {
+		double ridePriceDesk = (ride.getPrice() - desk) * seats;
+		double availableBalance = traveler.getMoney();
+		if (availableBalance < ridePriceDesk)
+			return false;
+
+		Booking booking = registerBooking(ride, seats, desk, traveler);
+
+		payBooking(booking, ridePriceDesk, availableBalance);
+		return true;
+	}
+
+	public void payBooking(Booking booking, double ridePriceDesk, double availableBalance) {
+		db.getTransaction().begin();
+		Ride r = booking.getRide();
+		int s = booking.getSeats();
+		Traveler t = booking.getTraveler();
+		r.setnPlaces(r.getnPlaces() - s);
+		t.addBookedRide(booking);
+		t.setMoney(availableBalance - ridePriceDesk);
+		t.setIzoztatutakoDirua(t.getIzoztatutakoDirua() + ridePriceDesk);
+		db.merge(r);
+		db.merge(t);
+		db.getTransaction().commit();
+	}
+
+	public Booking registerBooking(Ride ride, int seats, double desk, Traveler traveler) {
+		db.getTransaction().begin();
+		Booking booking = new Booking(ride, traveler, seats);
+		booking.setTraveler(traveler);
+		booking.setDeskontua(desk);
+		db.persist(booking);
+		db.getTransaction().commit();
+		return booking;
 	}
 
 	public List<Movement> getAllMovements(User user) {
@@ -833,7 +841,7 @@ public class DataAccess {
 
 	public void deleteUser(User us) {
 		try {
-			if(!us.getMota().equals("Driver")) {
+			if (!us.getMota().equals("Driver")) {
 				List<Booking> lb = getBookedRides(us.getUsername());
 				if (lb != null) {
 					for (Booking li : lb) {
@@ -848,26 +856,25 @@ public class DataAccess {
 					}
 				}
 			}
-			
+
 			List<Ride> rl = getRidesByDriver(us.getUsername());
-			
+
 			if (rl != null) {
 				for (Ride ri : rl) {
 					cancelRide(ri);
 				}
 			}
-			
+
 			Driver d = getDriver(us.getUsername());
 			List<Car> cl = d.getCars();
-			
+
 			if (cl != null) {
 				for (int i = cl.size() - 1; i >= 0; i--) {
 					Car ci = cl.get(i);
 					deleteCar(ci);
 				}
 			}
-			db.
-			getTransaction().begin();
+			db.getTransaction().begin();
 			us = db.merge(us);
 			db.remove(us);
 			db.getTransaction().commit();
