@@ -373,12 +373,7 @@ public class DataAccess {
 	public Driver getDriver(String erab) {
 		TypedQuery<Driver> query = db.createQuery("SELECT d FROM Driver d WHERE d.username = :username", Driver.class);
 		setParam(query, erab);
-		List<Driver> resultList = query.getResultList();
-		if (resultList.isEmpty()) {
-			return null;
-		} else {
-			return resultList.get(0);
-		}
+		return query.getSingleResult();
 	}
 
 	public Traveler getTraveler(String erab) {
@@ -612,10 +607,7 @@ public class DataAccess {
 	public List<Booking> getBookingFromDriver(String username) {
 		try {
 			db.getTransaction().begin();
-			TypedQuery<Driver> query = db.createQuery("SELECT d FROM Driver d WHERE d.username = :username",
-					Driver.class);
-			setParam(query, username);
-			Driver driver = query.getSingleResult();
+			Driver driver = getDriver(username);
 
 			List<Ride> rides = driver.getCreatedRides();
 			List<Booking> bookings = new ArrayList<>();
@@ -694,20 +686,14 @@ public class DataAccess {
 	public List<Ride> getRidesByDriver(String username) {
 		try {
 			db.getTransaction().begin();
-			TypedQuery<Driver> query = db.createQuery("SELECT d FROM Driver d WHERE d.username = :username",
-					Driver.class);
-			setParam(query, username);
-			Driver driver = query.getSingleResult();
-
+			Driver driver = getDriver(username);
 			List<Ride> rides = driver.getCreatedRides();
 			List<Ride> activeRides = new ArrayList<>();
-
 			for (Ride ride : rides) {
 				if (ride.isActive()) {
 					activeRides.add(ride);
 				}
 			}
-
 			db.getTransaction().commit();
 			return activeRides;
 		} catch (Exception e) {
@@ -716,6 +702,7 @@ public class DataAccess {
 			return null;
 		}
 	}
+
 
 	public boolean addCar(String username, Car kotxe) {
 		try {
