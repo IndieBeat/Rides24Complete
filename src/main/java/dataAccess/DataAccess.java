@@ -333,7 +333,7 @@ public class DataAccess {
 
 	public User getUser(String erab) {
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
-		query.setParameter("username", erab);
+		setParam(query, erab);
 		return query.getSingleResult();
 	}
 	
@@ -953,46 +953,66 @@ public class DataAccess {
 	}
 
 	public boolean updateAlertaAurkituak(String username) {
-		try {
-			db.getTransaction().begin();
+	    try {
+	        db.getTransaction().begin();
 
-			boolean alertFound = false;
-			TypedQuery<Alert> alertQuery = db.createQuery("SELECT a FROM Alert a WHERE a.traveler.username = :username",
-					Alert.class);
-			setParam(alertQuery, username);
-			List<Alert> alerts = alertQuery.getResultList();
+	        List<Alert> alerts = getAlertsByU(username);
+	        List<Ride> rides = getActiveFutureRides();
 
-			TypedQuery<Ride> rideQuery = db
-					.createQuery("SELECT r FROM Ride r WHERE r.date > CURRENT_DATE AND r.active = true", Ride.class);
-			List<Ride> rides = rideQuery.getResultList();
+	        boolean alertFound = processAlerts(alerts, rides);
 
-			for (Alert alert : alerts) {
-				boolean found = false;
-				for (Ride ride : rides) {
-					if (UtilDate.datesAreEqualIgnoringTime(ride.getDate(), alert.getDate())
-							&& ride.getFrom().equals(alert.getFrom()) && ride.getTo().equals(alert.getTo())
-							&& ride.getnPlaces() > 0) {
-						alert.setFound(true);
-						found = true;
-						if (alert.isActive())
-							alertFound = true;
-						break;
-					}
-				}
-				if (!found) {
-					alert.setFound(false);
-				}
-				db.merge(alert);
-			}
-
-			db.getTransaction().commit();
-			return alertFound;
-		} catch (Exception e) {
-			e.printStackTrace();
-			db.getTransaction().rollback();
-			return false;
-		}
+	        db.getTransaction().commit();
+	        return alertFound;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        db.getTransaction().rollback();
+	        return false;
+	    }
 	}
+
+	private List<Alert> getAlertsByU(String username) {
+	    TypedQuery<Alert> alertQuery = db.createQuery("SELECT a FROM Alert a WHERE a.traveler.username = :username", Alert.class);
+	    setParam(alertQuery, username);
+	    return alertQuery.getResultList();
+	}
+
+	private List<Ride> getActiveFutureRides() {
+	    TypedQuery<Ride> rideQuery = db.createQuery("SELECT r FROM Ride r WHERE r.date > CURRENT_DATE AND r.active = true", Ride.class);
+	    return rideQuery.getResultList();
+	}
+
+	private boolean processAlerts(List<Alert> alerts, List<Ride> rides) {
+	    boolean alertFound = false;
+
+	    for (Alert alert : alerts) {
+	        boolean found = updateAlertWithRides(alert, rides);
+	        db.merge(alert);
+
+	        if (found && alert.isActive()) {
+	            alertFound = true;
+	        }
+	    }
+	    return alertFound;
+	}
+
+	private boolean updateAlertWithRides(Alert alert, List<Ride> rides) {
+	    for (Ride ride : rides) {
+	        if (isMatchingRide(alert, ride)) {
+	            alert.setFound(true);
+	            return true;
+	        }
+	    }
+	    alert.setFound(false);
+	    return false;
+	}
+
+	private boolean isMatchingRide(Alert alert, Ride ride) {
+	    return UtilDate.datesAreEqualIgnoringTime(ride.getDate(), alert.getDate())
+	        && ride.getFrom().equals(alert.getFrom())
+	        && ride.getTo().equals(alert.getTo())
+	        && ride.getnPlaces() > 0;
+	}
+
 
 	public boolean createAlert(Alert alert) {
 		try {
