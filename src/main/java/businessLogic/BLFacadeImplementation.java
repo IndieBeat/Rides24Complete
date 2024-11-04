@@ -451,4 +451,14 @@ public class BLFacadeImplementation implements BLFacade {
 		return er;
 	}
 
+	@Override
+	public ExtendedIterator<String> getDepartingCitiesIterator() {
+		// TODO Auto-generated method stub
+		dbManager.open();
+		ExtendedIterator<String> list=
+				new ExtendedIteratorImplementation(dbManager.getDepartCities());
+		dbManager.close();
+		return list;
+	}
+
 }

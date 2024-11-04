@@ -179,5 +179,7 @@ public interface BLFacade extends Serializable {
 	public boolean deleteAlert(int alertNumber);
 
 	public Complaint getComplaintsByBook(Booking bo);
+	
+	public ExtendedIterator<String> getDepartingCitiesIterator();
 
 }
