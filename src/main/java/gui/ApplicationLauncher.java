@@ -1,67 +1,42 @@
 package gui;
 
-import java.net.URL;
 import java.util.Locale;
 
 import javax.swing.UIManager;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 
 import configuration.ConfigXML;
-import dataAccess.DataAccess;
 import businessLogic.BLFacade;
-import businessLogic.BLFacadeImplementation;
+import businessLogic.BLFacadeFactory;
 
 public class ApplicationLauncher {
 
 	public static void main(String[] args) {
+		ConfigXML config = ConfigXML.getInstance();
 
-		ConfigXML c = ConfigXML.getInstance();
-
-		System.out.println(c.getLocale());
-
-		Locale.setDefault(new Locale(c.getLocale()));
-
+	
+		Locale.setDefault(new Locale(config.getLocale()));
 		System.out.println("Locale: " + Locale.getDefault());
 
 		try {
 
-			BLFacade appFacadeInterface;
+			boolean isLocal = config.isBusinessLogicLocal(); 
+
+
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
-			if (c.isBusinessLogicLocal()) {
+			// Obtener la instancia única de BLFacadeFactory
+            BLFacadeFactory factory = BLFacadeFactory.getInstance();
 
-				DataAccess da = new DataAccess();
-				appFacadeInterface = new BLFacadeImplementation(da);
+            // Usa la fábrica para obtener la implementación de BLFacade
+            BLFacade appFacadeInterface = factory.getBusinessLogicFactory(isLocal);
 
-			}
-
-			else { // If remote
-
-				String serviceName = "http://" + c.getBusinessLogicNode() + ":" + c.getBusinessLogicPort() + "/ws/"
-						+ c.getBusinessLogicName() + "?wsdl";
-
-				URL url = new URL(serviceName);
-
-				// 1st argument refers to wsdl document above
-				// 2nd argument is service name, refer to wsdl document above
-				QName qname = new QName("http://businessLogic/", "BLFacadeImplementationService");
-
-				Service service = Service.create(url, qname);
-
-				appFacadeInterface = service.getPort(BLFacade.class);
-			}
-
+			// Configurar la lógica de negocio en la GUI
 			MainGUI.setBussinessLogic(appFacadeInterface);
-			MainGUI a = new MainGUI();
-			a.setVisible(true);
+			MainGUI mainGUI = new MainGUI();
+			mainGUI.setVisible(true);
 
 		} catch (Exception e) {
-			
 			System.out.println("Error in ApplicationLauncher: " + e.toString());
 		}
-		// a.pack();
-
 	}
-
 }
