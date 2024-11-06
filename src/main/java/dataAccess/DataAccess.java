@@ -357,13 +357,13 @@ public class DataAccess {
 		TypedQuery<Long> travelerQuery = db.createQuery(
 				"SELECT COUNT(t) FROM Traveler t WHERE t.username = :username AND t.passwd = :passwd", Long.class);
 		setParam(travelerQuery, erab);
-		setParam(travelerQuery, passwd);
+		travelerQuery.setParameter("passwd", passwd);
 		Long travelerCount = travelerQuery.getSingleResult();
 
 		TypedQuery<Long> driverQuery = db.createQuery(
 				"SELECT COUNT(d) FROM Driver d WHERE d.username = :username AND d.passwd = :passwd", Long.class);
 		setParam(driverQuery, erab);
-		setParam(driverQuery, passwd);
+		driverQuery.setParameter("passwd", passwd);
 		Long driverCount = driverQuery.getSingleResult();
 
 		boolean isAdmin = ((erab.compareTo("admin") == 0) && (passwd.compareTo(adminPass) == 0));
